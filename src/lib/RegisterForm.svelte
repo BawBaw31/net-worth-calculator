@@ -1,7 +1,26 @@
-<script>
+<script lang="ts">
   import { createForm } from "svelte-forms-lib";
   import * as yup from "yup";
   import CustomButton from "./CustomButton.svelte";
+
+  const registerRequest = async (
+    email: string,
+    username: string,
+    password: string
+  ): Promise<Response> => {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/signup`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        username: username,
+        password: password,
+      }),
+    });
+    return response;
+  };
 
   const { errors, handleChange, handleSubmit, isValid, isSubmitting, touched } =
     createForm({
@@ -17,11 +36,19 @@
         password: yup.string().min(8).required(),
         confirmPassword: yup
           .string()
+          .label("password confirmation")
           .required()
-          .oneOf([yup.ref("password")], "Passwords must match"),
+          .oneOf([yup.ref("password")], "passwords must match"),
       }),
-      onSubmit: (values) => {
-        alert(JSON.stringify(values));
+      onSubmit: async (values) => {
+        console.log(values);
+        const response = await registerRequest(
+          values.email,
+          values.username,
+          values.password
+        );
+        const data = await response.json();
+        console.log(data);
       },
     });
 </script>

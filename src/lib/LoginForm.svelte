@@ -1,10 +1,25 @@
-<script>
-  import CustomButton from "./CustomButton.svelte";
+<script lang="ts">
   import { createForm } from "svelte-forms-lib";
   import * as yup from "yup";
+  import { currentArtist } from "../stores";
+  import CustomButton from "./CustomButton.svelte";
 
-  // mock async request
-  const makeRequest = () => new Promise((resolve) => setTimeout(resolve, 1000));
+  const loginRequest = async (
+    email: string,
+    password: string
+  ): Promise<Response> => {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
+      return response;
+  };
 
   const { errors, touched, isValid, isSubmitting, handleChange, handleSubmit } =
     createForm({
@@ -17,8 +32,14 @@
         password: yup.string().min(8).required(),
       }),
       onSubmit: async (values) => {
-        await makeRequest();
-        alert(JSON.stringify(values, null, 2));
+        const response = await loginRequest(values.email, values.password);
+        const data = await response.json();
+        console.log(data);
+        currentArtist.set({
+          token: data.Token,
+          email: data.User.Email,
+          username: data.User.Username,
+        });
       },
     });
 </script>
@@ -44,6 +65,11 @@
     btnType="submit"
     text={$isSubmitting ? "Loading..." : "Submit"}
     btnIsDisabled={!$isValid}
+  />
+
+  <CustomButton
+    text="user"
+    on:click={() => currentArtist.subscribe((value) => console.log(value))}
   />
 </form>
 

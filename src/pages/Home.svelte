@@ -14,7 +14,7 @@
   <div class="pageContainer">
     <div class="leftContainer" />
     <div class="rightContainer">
-      <h1>Welcome to Loud-Stream webapp</h1>
+      <h1>Welcome to Net-Worth Calculator</h1>
 
       <div class="card">
         <div class="card-header-container">
