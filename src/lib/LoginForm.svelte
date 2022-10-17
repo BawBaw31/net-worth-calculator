@@ -1,24 +1,25 @@
 <script lang="ts">
   import { createForm } from "svelte-forms-lib";
+  import { push,  } from "svelte-spa-router";
   import * as yup from "yup";
-  import { currentArtist } from "../stores";
+  import { currentUser } from "../stores";
   import CustomButton from "./CustomButton.svelte";
 
   const loginRequest = async (
     email: string,
     password: string
   ): Promise<Response> => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
-      });
-      return response;
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    });
+    return response;
   };
 
   const { errors, touched, isValid, isSubmitting, handleChange, handleSubmit } =
@@ -34,12 +35,15 @@
       onSubmit: async (values) => {
         const response = await loginRequest(values.email, values.password);
         const data = await response.json();
-        console.log(data);
-        currentArtist.set({
-          token: data.Token,
-          email: data.User.Email,
-          username: data.User.Username,
-        });
+        currentUser.update(
+          (user) =>
+            (user = {
+              token: data.Token,
+              email: data.User.Email,
+              username: data.User.Username,
+            })
+        );
+        push("/items");
       },
     });
 </script>
@@ -69,7 +73,7 @@
 
   <CustomButton
     text="user"
-    on:click={() => currentArtist.subscribe((value) => console.log(value))}
+    on:click={() => currentUser.subscribe((value) => console.log(value))}
   />
 </form>
 

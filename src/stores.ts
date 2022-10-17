@@ -1,4 +1,5 @@
-import { writable, type Writable } from "svelte/store";
+import type { Writable } from "svelte/store";
+import { writable } from "svelte-local-storage-store";
 
 interface User {
   username: string;
@@ -6,4 +7,8 @@ interface User {
   token: string;
 }
 
-export const currentArtist: Writable<User> = writable();
+export const currentUser: Writable<User> = writable("user", {
+  username: "",
+  email: "",
+  token: "",
+});
