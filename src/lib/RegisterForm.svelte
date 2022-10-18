@@ -41,7 +41,6 @@
           .oneOf([yup.ref("password")], "passwords must match"),
       }),
       onSubmit: async (values) => {
-        console.log(values);
         const response = await registerRequest(
           values.email,
           values.username,

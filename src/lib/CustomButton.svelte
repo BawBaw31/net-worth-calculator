@@ -40,6 +40,10 @@
     background-color: var(--secondary-dark);
   }
 
+  button.red {
+    background-color: var(--red);
+  }
+
   button.small {
     font-size: 0.7rem;
   }

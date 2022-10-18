@@ -1,8 +1,7 @@
 <script lang="ts">
   import { createForm } from "svelte-forms-lib";
-  import { push,  } from "svelte-spa-router";
   import * as yup from "yup";
-  import { currentUser } from "../stores";
+  import { currentUser } from "../auth";
   import CustomButton from "./CustomButton.svelte";
 
   const loginRequest = async (
@@ -43,7 +42,6 @@
               username: data.User.Username,
             })
         );
-        push("/items");
       },
     });
 </script>
@@ -69,11 +67,6 @@
     btnType="submit"
     text={$isSubmitting ? "Loading..." : "Submit"}
     btnIsDisabled={!$isValid}
-  />
-
-  <CustomButton
-    text="user"
-    on:click={() => currentUser.subscribe((value) => console.log(value))}
   />
 </form>
 

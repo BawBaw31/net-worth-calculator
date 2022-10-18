@@ -10,38 +10,32 @@
   };
 </script>
 
-<main>
-  <div class="pageContainer">
-    <div class="leftContainer" />
-    <div class="rightContainer">
-      <h1>Welcome to Net-Worth Calculator</h1>
+<div class="pageContainer">
+  <div class="leftContainer" />
+  <div class="rightContainer">
+    <h1>Welcome to Net-Worth Calculator</h1>
 
-      <div class="card">
-        <div class="card-header-container">
-          <h2>{login ? "Login" : "Register"}</h2>
-          <CustomButton
-            on:click={toggleLogin}
-            btnStyle="secondary"
-            btnType="submit"
-            btnSize="small"
-            text={login ? "Register" : "Login"}
-          />
-        </div>
-        {#if login}
-          <LoginForm />
-        {:else}
-          <RegisterForm />
-        {/if}
+    <div class="card">
+      <div class="card-header-container">
+        <h2>{login ? "Login" : "Register"}</h2>
+        <CustomButton
+          on:click={toggleLogin}
+          btnStyle="secondary"
+          btnType="submit"
+          btnSize="small"
+          text={login ? "Register" : "Login"}
+        />
       </div>
+      {#if login}
+        <LoginForm />
+      {:else}
+        <RegisterForm />
+      {/if}
     </div>
   </div>
-</main>
+</div>
 
 <style>
-  main {
-    height: 100%;
-  }
-
   .pageContainer {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -57,7 +51,7 @@
 
   .leftContainer {
     background-color: var(--primary);
-    height: 100vh;
+    height: 200%;
   }
 
   .card-header-container {

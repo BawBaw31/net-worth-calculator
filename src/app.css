@@ -2,6 +2,7 @@
   --primary: #f17dd4;
   --secondary-dark: #1a1a1a;
   --secondary-light: #f9f9f9;
+  --red: #f17d7d;
   --bg-dark: #242424;
   --bg-light: #ffffff;
   --text-dark: rgba(255, 255, 255, 0.87);
@@ -21,6 +22,10 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+}
+
+#app {
+  width: 100%;
 }
 
 a {

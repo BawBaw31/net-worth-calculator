@@ -1,8 +1,13 @@
 <script>
-  import Router from 'svelte-spa-router'
-  import { routes } from './routes';
+  import { currentUser } from "./auth";
+  import Home from "./pages/Login.svelte";
+  import MyItems from "./pages/Main.svelte";
 </script>
 
-<body>
-  <Router {routes} />
-</body>
+<main>
+  {#if $currentUser != null}
+    <MyItems />
+  {:else}
+    <Home />
+  {/if}
+</main>
