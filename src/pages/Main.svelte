@@ -38,8 +38,8 @@
 
 {#if $items.length > 0}
   <ul class="items-container">
-    {#each $items as item}
-      <ItemCard {item} />
+    {#each $items as item, i (item.id)}
+      <ItemCard item={item} index={i} />
     {/each}
   </ul>
 {:else}
@@ -57,7 +57,7 @@
 
   .items-container {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
   }
 
   .page-header {

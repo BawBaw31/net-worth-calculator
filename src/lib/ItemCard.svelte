@@ -1,8 +1,29 @@
 <script lang="ts">
   import type { Item } from "../items";
   import CustomButton from "./CustomButton.svelte";
+  import { currentUser } from "../auth";
+  import { items } from "../items";
 
   export let item: Item;
+  export let index: number;
+
+  const deleteItem = async () => {
+    const res = await fetch(
+      `${import.meta.env.VITE_API_URL}/items/${item.id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${$currentUser.token}`,
+        },
+      }
+    );
+    if (res.status === 204) {
+      items.update((value) => {
+        value.splice(index, 1);
+        return value;
+      });
+    }
+  };
 </script>
 
 <li class="card">
@@ -22,7 +43,7 @@
       text="Edit"
     />
     <CustomButton
-      on:click={() => {}}
+      on:click={deleteItem}
       btnStyle="red"
       btnType="submit"
       btnSize="small"
