@@ -17,6 +17,12 @@
         Authorization: `Bearer ${$currentUser.token}`,
       },
     });
+
+    if (res.status === 401) {
+      $currentUser = null;
+      return;
+    }
+    
     const data = await res.json();
 
     data.forEach((item: Item) => {
@@ -39,7 +45,7 @@
 {#if $items.length > 0}
   <ul class="items-container">
     {#each $items as item, i (item.id)}
-      <ItemCard item={item} index={i} />
+      <ItemCard {item} index={i} />
     {/each}
   </ul>
 {:else}
