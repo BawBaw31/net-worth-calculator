@@ -4,14 +4,15 @@
   export let btnStyle = "primary";
   export let btnSize = "";
   export let btnIsDisabled = false;
+  export let ref = null;
 </script>
 
 {#if btnIsDisabled}
-  <button class="{btnStyle} {btnSize}" type={btnType} disabled on:click>
+  <button {ref} class="{btnStyle} {btnSize}" type={btnType} disabled on:click>
     {text}
   </button>
 {:else}
-  <button class="{btnStyle} {btnSize}" type={btnType} on:click>
+  <button {ref} class="{btnStyle} {btnSize}" type={btnType} on:click>
     {text}
   </button>
 {/if}

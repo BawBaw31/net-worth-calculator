@@ -1,11 +1,11 @@
-<script>
+<script lang="ts">
   import LoginForm from "../lib/LoginForm.svelte";
   import RegisterForm from "../lib/RegisterForm.svelte";
   import CustomButton from "../lib/CustomButton.svelte";
 
-  let login = true;
+  let login: boolean = true;
 
-  const toggleLogin = () => {
+  const toggleLogin = (): void => {
     login = !login;
   };
 </script>
