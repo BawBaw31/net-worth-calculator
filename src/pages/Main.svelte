@@ -1,13 +1,22 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onDestroy, onMount } from "svelte";
+  import { writable, type Unsubscriber, type Writable } from "svelte/store";
   import { currentUser } from "../auth";
   import { items, type Item } from "../items";
   import CustomButton from "../lib/CustomButton.svelte";
   import ItemCard from "../lib/ItemCard.svelte";
 
+  const creating: Writable<boolean> = writable(false);
+
   const logout = () => {
     $currentUser = null;
   };
+
+  let total: number;
+
+  let unsubscribe: Unsubscriber = items.subscribe((items) => {
+    total = items.reduce((acc, item) => acc + item.price, 0);
+  });
 
   onMount(async () => {
     $items = [];
@@ -22,13 +31,15 @@
       $currentUser = null;
       return;
     }
-    
+
     const data = await res.json();
 
     data.forEach((item: Item) => {
       items.update((value) => [...value, item]);
     });
   });
+
+  onDestroy(unsubscribe);
 </script>
 
 <div class="page-header">
@@ -39,7 +50,18 @@
     btnSize="small"
     text="Logout"
   />
-  <h1>{$currentUser.username} items :</h1>
+  <h1>{$currentUser.username} total : {total} $</h1>
+</div>
+
+<div class="action-container">
+  <CustomButton
+    on:click={() => ($creating = !$creating)}
+    btnStyle="primary"
+    text={$creating ? "-" : "+"}
+  />
+  {#if $creating}
+    <ItemCard bind:creating={$creating} />
+  {/if}
 </div>
 
 {#if $items.length > 0}
@@ -76,5 +98,12 @@
 
   p.no-items {
     text-align: center;
+  }
+
+  .action-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 10rem;
   }
 </style>

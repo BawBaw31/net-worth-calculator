@@ -5,8 +5,6 @@ export interface Item {
   title: string;
   description: string;
   price: number;
-  user: any;
-  user_id: number;
 }
 
 export const items: Writable<Item[]> = writable([]);

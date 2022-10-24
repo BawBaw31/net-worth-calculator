@@ -3,6 +3,8 @@
   import * as yup from "yup";
   import CustomButton from "./CustomButton.svelte";
 
+  export let login: boolean;
+
   const registerRequest = async (
     email: string,
     username: string,
@@ -46,8 +48,9 @@
           values.username,
           values.password
         );
-        const data = await response.json();
-        console.log(data);
+        if (response.status === 201) {
+          login = true;
+        }
       },
     });
 </script>

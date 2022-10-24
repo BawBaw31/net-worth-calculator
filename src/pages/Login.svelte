@@ -1,13 +1,10 @@
 <script lang="ts">
+  import { writable, type Writable } from "svelte/store";
+  import CustomButton from "../lib/CustomButton.svelte";
   import LoginForm from "../lib/LoginForm.svelte";
   import RegisterForm from "../lib/RegisterForm.svelte";
-  import CustomButton from "../lib/CustomButton.svelte";
 
-  let login: boolean = true;
-
-  const toggleLogin = (): void => {
-    login = !login;
-  };
+  let login: Writable<boolean> = writable(true);
 </script>
 
 <div class="pageContainer">
@@ -19,17 +16,16 @@
       <div class="card-header-container">
         <h2>{login ? "Login" : "Register"}</h2>
         <CustomButton
-          on:click={toggleLogin}
+          on:click={() => ($login = !$login)}
           btnStyle="secondary"
-          btnType="submit"
           btnSize="small"
-          text={login ? "Register" : "Login"}
+          text={$login ? "Register" : "Login"}
         />
       </div>
-      {#if login}
+      {#if $login}
         <LoginForm />
       {:else}
-        <RegisterForm />
+        <RegisterForm bind:login={$login} />
       {/if}
     </div>
   </div>
