@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { onDestroy, onMount } from "svelte";
-  import { writable, type Unsubscriber, type Writable } from "svelte/store";
+  import { onMount } from "svelte";
+  import { writable, type Writable } from "svelte/store";
   import { currentUser } from "../auth";
-  import { items, type Item } from "../items";
+  import { items, totalPrice, type Item } from "../items";
   import CustomButton from "../lib/CustomButton.svelte";
   import ItemCard from "../lib/ItemCard.svelte";
 
@@ -11,12 +11,6 @@
   const logout = () => {
     $currentUser = null;
   };
-
-  let total: number;
-
-  let unsubscribe: Unsubscriber = items.subscribe((items) => {
-    total = items.reduce((acc, item) => acc + item.price, 0);
-  });
 
   onMount(async () => {
     $items = [];
@@ -39,7 +33,7 @@
     });
   });
 
-  onDestroy(unsubscribe);
+  // onDestroy(unsubscribe);
 </script>
 
 <div class="page-header">
@@ -50,7 +44,7 @@
     btnSize="small"
     text="Logout"
   />
-  <h1>{$currentUser.username} total : {total} $</h1>
+  <h1>{$currentUser.username} total : {$totalPrice} $</h1>
 </div>
 
 <div class="action-container">

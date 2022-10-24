@@ -55,9 +55,11 @@
             ...$items[index],
             title: values.title,
             description: values.description,
-            price: values.price,
+            price:
+              typeof values.price === "string"
+                ? parseInt(values.price)
+                : values.price,
           };
-
           editing = false;
         }
       },
